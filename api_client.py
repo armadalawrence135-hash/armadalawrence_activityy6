@@ -58,4 +58,8 @@ if __name__ == "__main__":
     get_all_students()
 
     # Example:
+<<<<<<< HEAD
     # get_student(1)
+=======
+    # get_student(1)
+>>>>>>> 8eca55f00c40c151f0fda70fa7ebd75d66201c19
