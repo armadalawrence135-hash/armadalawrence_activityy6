@@ -1,0 +1,524 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lawrence Armada | Student API Interface</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef3f9;
+    color: #1e293b;
+}
+
+header {
+    background: linear-gradient(135deg, #102a43, #2563eb);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+header h1 {
+    margin: 0 0 10px;
+    font-size: 30px;
+}
+
+header p {
+    margin: 6px;
+    color: #dbeafe;
+}
+
+.container {
+    max-width: 1050px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    color: #1e3a8a;
+    margin: 30px 0 18px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.06);
+    border: 1px solid #e2e8f0;
+}
+
+.card h2 {
+    color: #1d4ed8;
+    font-size: 20px;
+    margin-top: 0;
+}
+
+.card p {
+    line-height: 1.6;
+}
+
+button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 12px 17px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #1e40af;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.result {
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+    padding: 15px;
+    border-radius: 7px;
+    margin-top: 16px;
+    min-height: 45px;
+    overflow-wrap: anywhere;
+}
+
+.result p {
+    margin: 8px 0;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background: #1e40af;
+    color: white;
+}
+
+.status {
+    color: #64748b;
+    font-size: 13px;
+}
+
+footer {
+    background: #102a43;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 50px;
+}
+
+@media(max-width: 600px) {
+    header h1 {
+        font-size: 23px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Student API Interface</h1>
+    <p>Welcome to Lawrence Armada's API Dashboard</p>
+    <p>BSIT | 3rd Year | Section A</p>
+</header>
+
+<main class="container">
+
+    <!-- STUDENT INFORMATION -->
+    <h2 class="section-title">Student Information</h2>
+
+    <div class="grid">
+
+        <div class="card">
+            <h2>Student Information API</h2>
+            <p>Retrieve your personal student information using the Flask API.</p>
+
+            <button onclick="loadStudent()">
+                Load Student Information
+            </button>
+
+            <div class="result" id="result">
+                Student information will appear here.
+            </div>
+        </div>
+
+        <!-- GREETING API -->
+        <div class="card">
+            <h2>Greeting API</h2>
+            <p>Enter your first name to receive a personalized greeting.</p>
+
+            <input
+                type="text"
+                id="nameInput"
+                placeholder="Enter your first name"
+            >
+
+            <button onclick="sayHello()">Say Hello</button>
+
+            <div class="result" id="greeting">
+                Your greeting will appear here.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CUSTOM API -->
+    <h2 class="section-title">Additional Task - Custom API</h2>
+
+    <div class="grid">
+
+        <div class="card">
+            <h2>My Hobby API</h2>
+            <p>Retrieve information about my personal hobby.</p>
+
+            <button onclick="loadHobby()">Load My Hobby</button>
+
+            <div class="result" id="hobbyResult">
+                Hobby information will appear here.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Total Calculator API</h2>
+            <p>Calculate the total price using the API.</p>
+
+            <input
+                type="number"
+                id="priceInput"
+                placeholder="Enter price"
+                min="0"
+                step="any"
+            >
+
+            <input
+                type="number"
+                id="quantityInput"
+                placeholder="Enter quantity"
+                min="0"
+                step="1"
+            >
+
+            <button onclick="calculateTotal()">Calculate Total</button>
+
+            <div class="result" id="totalResult">
+                Calculation will appear here.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- STUDENT DATABASE -->
+    <h2 class="section-title">Student Database API</h2>
+
+    <div class="card">
+        <h2>Student Records</h2>
+        <p>Retrieve records from the existing SQLite student database.</p>
+
+        <button onclick="loadRecords()">Load Student Records</button>
+
+        <p class="status" id="recordStatus"></p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Program</th>
+                        <th>Year</th>
+                        <th>Section</th>
+                    </tr>
+                </thead>
+
+                <tbody id="recordsBody">
+                    <tr>
+                        <td colspan="6">Click Load Student Records.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+
+<footer>
+    <p>Lawrence Armada | BSIT | Laboratory Activity 6</p>
+    <p>Building a Simple Web Interface for Your Flask API</p>
+</footer>
+
+<script>
+
+// ==================================
+// STUDENT INFORMATION API
+// ==================================
+
+async function loadStudent() {
+    const result = document.getElementById("result");
+
+    result.textContent = "Loading student information...";
+
+    try {
+        const response = await fetch("/student");
+
+        if (!response.ok) {
+            throw new Error("Student request failed.");
+        }
+
+        const data = await response.json();
+
+        result.replaceChildren();
+
+        const fields = [
+            ["Student ID", data.student_id],
+            ["Name", data.name],
+            ["Program", data.program],
+            ["Year", data.year],
+            ["Section", data.section]
+        ];
+
+        fields.forEach(([label, value]) => {
+            const p = document.createElement("p");
+            const strong = document.createElement("strong");
+
+            strong.textContent = label + ": ";
+            p.append(strong, document.createTextNode(value ?? ""));
+
+            result.appendChild(p);
+        });
+
+    } catch (error) {
+        result.textContent = "Unable to retrieve data.";
+    }
+}
+
+
+// ==================================
+// GREETING API
+// ==================================
+
+async function sayHello() {
+    const name = document.getElementById("nameInput").value.trim();
+    const greeting = document.getElementById("greeting");
+
+    if (!name) {
+        greeting.textContent = "Please enter your first name.";
+        return;
+    }
+
+    greeting.textContent = "Loading greeting...";
+
+    try {
+        const response = await fetch(
+            "/hello?name=" + encodeURIComponent(name)
+        );
+
+        if (!response.ok) {
+            throw new Error("Greeting request failed.");
+        }
+
+        const data = await response.json();
+
+        greeting.textContent = data.message;
+
+    } catch (error) {
+        greeting.textContent = "Unable to retrieve greeting.";
+    }
+}
+
+
+// ==================================
+// CUSTOM API - HOBBY
+// ==================================
+
+async function loadHobby() {
+    const result = document.getElementById("hobbyResult");
+
+    result.textContent = "Loading hobby information...";
+
+    try {
+        const response = await fetch("/hobby");
+
+        if (!response.ok) {
+            throw new Error("Hobby request failed.");
+        }
+
+        const data = await response.json();
+
+        result.replaceChildren();
+
+        const hobby = document.createElement("p");
+        hobby.textContent = "Hobby: " + data.hobby;
+
+        const description = document.createElement("p");
+        description.textContent = data.description;
+
+        result.append(hobby, description);
+
+    } catch (error) {
+        result.textContent = "Unable to retrieve hobby information.";
+    }
+}
+
+
+// ==================================
+// TOTAL CALCULATOR API
+// ==================================
+
+async function calculateTotal() {
+    const price = document.getElementById("priceInput").value;
+    const quantity = document.getElementById("quantityInput").value;
+    const result = document.getElementById("totalResult");
+
+    if (price === "" || quantity === "") {
+        result.textContent = "Please enter price and quantity.";
+        return;
+    }
+
+    if (
+        !Number.isFinite(Number(price)) ||
+        !Number.isFinite(Number(quantity)) ||
+        Number(price) < 0 ||
+        !Number.isInteger(Number(quantity)) ||
+        Number(quantity) < 0
+    ) {
+        result.textContent = "Enter a valid price and non-negative whole-number quantity.";
+        return;
+    }
+
+    result.textContent = "Calculating...";
+
+    try {
+        const response = await fetch(
+            "/total?price=" + encodeURIComponent(price) +
+            "&quantity=" + encodeURIComponent(quantity)
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Calculation failed.");
+        }
+
+        result.replaceChildren();
+
+        [
+            "Price: " + data.price,
+            "Quantity: " + data.quantity,
+            "Total: " + data.total
+        ].forEach(value => {
+            const p = document.createElement("p");
+            p.textContent = value;
+            result.appendChild(p);
+        });
+
+    } catch (error) {
+        result.textContent = error.message;
+    }
+}
+
+
+// ==================================
+// EXISTING STUDENT DATABASE API
+// ==================================
+
+async function loadRecords() {
+    const body = document.getElementById("recordsBody");
+    const status = document.getElementById("recordStatus");
+
+    status.textContent = "Loading student records...";
+    body.replaceChildren();
+
+    try {
+        const response = await fetch("/api/students");
+
+        if (!response.ok) {
+            throw new Error("Unable to load records.");
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+            body.innerHTML =
+                '<tr><td colspan="6">No student records found.</td></tr>';
+
+            status.textContent = "No records available.";
+            return;
+        }
+
+        data.forEach(student => {
+            const row = document.createElement("tr");
+
+            [
+                student.id,
+                student.student_id,
+                student.name,
+                student.program,
+                student.year,
+                student.section
+            ].forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value ?? "";
+                row.appendChild(cell);
+            });
+
+            body.appendChild(row);
+        });
+
+        status.textContent =
+            "Successfully loaded " + data.length + " student records.";
+
+    } catch (error) {
+        status.textContent = error.message;
+
+        body.innerHTML =
+            '<tr><td colspan="6">Unable to retrieve records.</td></tr>';
+    }
+}
+
+</script>
+
+</body>
+</html>
